@@ -51,22 +51,48 @@ public class Jotto {
     }
 
     public ArrayList<String> readWords() {
-        ArrayList<String> words = new ArrayList<String>();
-
         File f = new File(this.fileName);
 
         try (Scanner s = new Scanner(f)) {
             while (s.hasNextLine()) {
-                words.add(s.nextLine());
+                this.wordList.add(s.nextLine());
             }
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found Exception.");
         }
 
-        return words;
+        return new ArrayList<String>(this.wordList);
     }
 
     public void play() {
+        Scanner input = new Scanner(System.in);
+
+        boolean gameRunning = true;
+
+        while (gameRunning) {
+            System.out.print("Menu\n");
+
+            String choice = input.nextLine().toLowerCase();
+
+            if (choice.equals("1") || choice.equals("one")) {
+                if (pickWord()) {
+                    guess();
+                } else {
+                    showPlayerGuesses();
+                }
+            } else if (choice.equals("2") || choice.equals("two")) {
+                showWordList();
+            } else if (choice.equals("3") || choice.equals("three")) {
+                showPlayedWords();
+            } else if (choice.equals("4") || choice.equals("four")) {
+                showPlayerGuesses();
+            } else if (choice.equals("zz")) {
+                gameRunning = false;
+            } else {
+                System.out.println("Invalid choice. Try again\n");
+            }
+        }
+
 
     }
 
